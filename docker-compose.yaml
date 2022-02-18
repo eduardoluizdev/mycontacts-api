@@ -11,14 +11,19 @@ services:
       - "5432:5432"
     volumes:
       - ./app/src/database/schema.sql:/docker-entrypoint-initdb.d/init.sql
-      
-      - ./db/data:/var/lib/postgresql/data 
-    
+
+      - ./db/data:/var/lib/postgresql/data
+    networks:
+      - "default"
+
   mycontacts:
     image: mycontacts
     depends_on:
       - postgres-mycontacts
     ports:
       - "3000:3000"
-      
- 
+    networks:
+      - "default"
+
+networks:
+  default:
