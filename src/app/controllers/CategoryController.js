@@ -1,3 +1,4 @@
+const isValidUUID = require('../utils/isValidUUID');
 const CategoriesRepository = require('../repositories/CategoriesRepository');
 
 class CategoryController {
@@ -9,6 +10,10 @@ class CategoryController {
 
   async show(req, res) {
     const { id } = req.params;
+
+    if (!isValidUUID(id)) {
+      return res.status(400).json({ error: 'Category not found' });
+    }
 
     const contact = await CategoriesRepository.findById(id);
 
@@ -37,6 +42,10 @@ class CategoryController {
       name,
     } = req.body;
 
+    if (!isValidUUID(id)) {
+      return res.status(400).json({ error: 'Category not found' });
+    }
+
     const categoryExists = await CategoriesRepository.findById(id);
 
     if (!categoryExists) {
@@ -56,6 +65,10 @@ class CategoryController {
 
   async delete(req, res) {
     const { id } = req.params;
+
+    if (!isValidUUID(id)) {
+      return res.status(400).json({ error: 'Category not found' });
+    }
 
     await CategoriesRepository.delete(id);
     res.sendStatus(204);
